@@ -121,28 +121,35 @@ function modify(req, res) {
 // destroy
 function destroy(req, res) {
 
-    const oggettoSingolo = datas.find((element) => element.id === parseInt(req.params.id))
+    // const oggettoSingolo = datas.find((element) => element.id === parseInt(req.params.id))
 
-    //controllo
-    if (!oggettoSingolo) {
+    // //controllo
+    // if (!oggettoSingolo) {
 
-        res.status(404);
+    //     res.status(404);
 
-        return res.json({
-            status: 404,
-            error: "Not Found",
-            message: "Post non trovato"
-        })
-    }
+    //     return res.json({
+    //         status: 404,
+    //         error: "Not Found",
+    //         message: "Post non trovato"
+    //     })
+    // }
 
 
 
-    //Rimuoviamo il post
-    datas.splice(datas.indexOf(oggettoSingolo), 1)
+    // //Rimuoviamo il post
+    // datas.splice(datas.indexOf(oggettoSingolo), 1)
 
-    console.log(datas)
-    //Restituiamo lo stato corretto
-    res.sendStatus(204)
+    // console.log(datas)
+    // //Restituiamo lo stato corretto
+    // res.sendStatus(204)
+
+    const {id} = req.params;
+
+    connection.query("DELETE FROM posts WHERE id = ?", [id], (err) => {
+        err && res.status(500).json({ error: "Failed to delete posts" })
+        res.sendStatus(204)
+    })
 }
 
 module.exports = { index, show, store, update, modify, destroy }
