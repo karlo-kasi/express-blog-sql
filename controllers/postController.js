@@ -2,7 +2,7 @@ const connection = require("../data/db")
 
 
 function index(req, res) {
-
+    /*
     //faccio coincidere filteredPosts con l'array iniziale
     let objfilter = datas;
     // Pi()
@@ -12,7 +12,14 @@ function index(req, res) {
     }
 
     // restituisco l'array filteredPosts, filtrato o meno!
-    res.json(objfilter);
+    res.json(objfilter);*/
+
+    const sql = "SELECT * FROM posts"
+
+    connection.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Database query failed" });
+        res.json(results); 
+    }) 
 };
 
 //show
