@@ -18,30 +18,39 @@ function index(req, res) {
 
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: "Database query failed" });
-        res.json(results); 
-    }) 
+        res.json(results);
+    })
 };
 
 //show
 function show(req, res) {
 
-    let id = parseInt(req.params.id)
+    // let id = parseInt(req.params.id)
 
-    const oggettoSingolo = datas.find((element) => element.id === id)
+    // const oggettoSingolo = datas.find((element) => element.id === id)
 
-    // Facciamo il controllo
-    if (!oggettoSingolo) {
+    // // Facciamo il controllo
+    // if (!oggettoSingolo) {
 
-        res.status(404);
+    //     res.status(404);
 
-        return res.json({
-            status: 404,
-            error: "Not Found",
-            message: "Pizza non trovata"
-        })
-    }
+    //     return res.json({
+    //         status: 404,
+    //         error: "Not Found",
+    //         message: "Pizza non trovata"
+    //     })
+    // }
 
-    res.json(oggettoSingolo)
+    // res.json(oggettoSingolo)
+
+    const id = req.params.id
+
+    const sql = "SELECT * FROM posts WHERE id = ?"
+    connection.query(sql, [id], (err, results) => {
+        err && res.status(500).json({ error: "Database query failed" })
+        results.length === 0 && res.status(404).json({ error: "Post not found" })
+        res.json(results[0]);
+    })
 }
 
 //store
